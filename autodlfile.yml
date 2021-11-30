@@ -1,0 +1,29 @@
+version: 1 
+
+project:
+  name: imagecap
+ 
+resource:
+  default_resources:
+    cpu:
+      limits: 4    
+    gpu:            
+      limits: 1     
+    memory:
+      limits: 20480
+
+image:
+  from_image: tensorflow/tensorflow:1.4.0-gpu
+  runs:
+  - apt-get update && apt-get install -y python-pip
+
+  - pip2 install tqdm pprint -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+train:
+  mount:
+    littlehaes.cub: /cub
+    littlehaes.mscoco_data: /data 
+    littlehaes.mscoco_G_pretrained: /G_pretrained  
+  output: /output
+
+  cmd: python2 main.py
